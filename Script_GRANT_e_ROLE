@@ -1,0 +1,22 @@
+CREATE SCHEMA financeiro;
+
+CREATE TABLE financeiro.transacoes(
+id SERIAL PRIMARY KEY, 
+descricao TEXT NOT NULL, 
+valor NUMERIC (10,2) NOT NULL,
+data_transacao DATE NOT NULL
+);
+-- Cria role sem privilegios
+CREATE ROLE analista_financeiro;
+USE financeiro;
+-- Comando que concede o acesso
+GRANT USAGE ON financeiro.transacoes TO analista_financeiro;
+-- criando permições 
+GRANT SELECT, INSERT, UPDATE ON TABLE financeiro.transacoes TO analista_financeiro;
+
+CREATE USER usuario1;
+-- concedeu o mesmo acesso do analista para o usuario
+GRANT analista_financeiro TO usuario1;
+
+SET ROLE usuario1;
+SELECT * FROM financeiro.transacoes;
